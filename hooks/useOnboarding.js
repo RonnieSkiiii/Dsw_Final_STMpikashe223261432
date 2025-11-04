@@ -18,7 +18,7 @@ export function useOnboarding() {
 
   const checkOnboardingStatus = async () => {
     try {
-      // First check Firebase user profile (account-based)
+      
       if (user) {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
@@ -33,12 +33,12 @@ export function useOnboarding() {
         }
       }
       
-      // Fallback to AsyncStorage (device-based) for non-authenticated users
+     
       const value = await AsyncStorage.getItem(ONBOARDING_KEY);
       setHasCompletedOnboarding(value === 'true');
     } catch (error) {
       console.error('Error checking onboarding status:', error);
-      // Fallback to AsyncStorage on error
+    
       try {
         const value = await AsyncStorage.getItem(ONBOARDING_KEY);
         setHasCompletedOnboarding(value === 'true');
@@ -52,7 +52,7 @@ export function useOnboarding() {
 
   const completeOnboarding = async () => {
     try {
-      // Update Firebase user profile
+      
       if (user) {
         const userRef = doc(db, 'users', user.uid);
         await updateDoc(userRef, {
@@ -60,7 +60,7 @@ export function useOnboarding() {
         });
       }
       
-      // Also update AsyncStorage
+      
       await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
       setHasCompletedOnboarding(true);
     } catch (error) {
